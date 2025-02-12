@@ -10,7 +10,7 @@ require_once('simplepie-1.5/autoloader.php');
 $feed = new SimplePie();
  
 // Set the feed to process.
-$feed->set_feed_url('https://feeds.bbci.co.uk/news/world/rss.xml');
+$feed->set_feed_url('https://www.xataka.com/feedburner.xml');
  
 $feed->enable_cache(false);
 

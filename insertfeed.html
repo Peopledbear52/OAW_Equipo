@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP test</title>
+    <script>
+        async function insertarFeed() {
+            try {
+                const feedUrl = {
+                    url: "https://www.xataka.com/feedburner.xml"
+                };
+
+                const url = "insertfeed.php";
+
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(feedUrl)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                document.getElementById("texto").innerHTML = data.mensaje;
+            } catch (error) {
+                console.error("Error: ", error);
+                document.getElementById("texto").innerHTML = "Hubo un error al insertar el feed.";
+            }
+        }
+    </script>
+</head>
+<body>
+    <button onclick="insertarFeed()">Ejecutar código PHP</button>
+    <div id="texto" style = "border: 2px;"></div>
+</body>
+</html>

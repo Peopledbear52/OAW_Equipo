@@ -1,0 +1,36 @@
+Código para obtener toda la información de una noticia teniendo la url de su feed
+
+SELECT 
+    n.titulo, 
+    n.fecha, 
+    n.descripcion, 
+    f.titulo AS feed_nombre, 
+    c.nombre AS categoria
+FROM 
+    noticias n
+JOIN 
+    feeds f ON n.url = f.url
+LEFT JOIN 
+    noticias_categorias nc ON n.id = nc.noticia_id
+LEFT JOIN 
+    categorias c ON nc.categoria_id = c.id
+WHERE 
+    n.url = 'http://ejemplo.com/feed';
+
+
+-----------------------------------------------
+Comandos para insertar valores
+
+INSERT INTO feeds (titulo, descripcion, url, imageurl)
+VALUES ('Feed de Ejemplo', 'Este es un feed de ejemplo', 'http://ejemplo.com/feed', 'url de la imagen')
+ON DUPLICATE KEY UPDATE titulo = VALUES(titulo), descripcion = VALUES(descripcion),
+imageurl = VALUES(imageurl);
+
+INSERT INTO noticias (titulo, descripcion, fecha, url)
+VALUES ('Titulo de la Noticia', 'Descripción de la noticia...', '2023-10-01', 'http://ejemplo.com/feed');
+
+INSERT INTO categorias (nombre) VALUES ('Tecnología'), ('Deportes'), ('Cultura');
+
+INSERT INTO noticias_categorias (noticia_id, categoria_id)
+VALUES (1, 1), (1, 2); -- La noticia con id 1 pertenece a las categorías Tecnología y Deportes
+

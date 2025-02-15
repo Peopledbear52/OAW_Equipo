@@ -8,7 +8,8 @@ $feeds = new SimplePie();
 
 $urls = ['https://www.xataka.com/feedburner.xml',
     'https://feeds.bbci.co.uk/news/world/rss.xml',
-    'https://www.cnbc.com/id/100727362/device/rss/rss.html'];
+    'https://www.cnbc.com/id/100727362/device/rss/rss.html',
+    'https://abcnews.go.com/abcnews/internationalheadlines'];
 
 $feeds->set_feed_url($urls); //Se le dan los links de los feeds a simplepie
 $feeds->enable_cache(false); //Desactivarlo para evitar una advertencia tonta

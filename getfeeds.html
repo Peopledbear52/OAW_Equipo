@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP test</title>
+    <script>
+        async function obtenerFeeds() {
+            try {
+                const url = "getfeeds.php";
+
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                mostrarElementos(data);
+            } catch (error) {
+                console.error("Error: ", error);
+                document.getElementById("texto").innerHTML = "Hubo un error al insertar el feed.";
+            }
+        }
+
+        function mostrarElementos(data) {
+            const textoDiv = document.getElementById("texto");
+
+            data.forEach(feed => {
+                const feedDiv = document.createElement("div");
+                if (feed.imageurl) {
+                    feedDiv.innerHTML = `<h2>Titulo: ${feed.titulo}</h2> <p>Descripcion: ${feed.descripcion}</p> <p>Enlace: ${feed.url}</p> <img src= ${feed.imageurl}>`;
+                } else{
+                    feedDiv.innerHTML = `<h2>Titulo: ${feed.titulo}</h2> <p>Descripcion: ${feed.descripcion}</p> <p>Enlace: ${feed.url}</p> <p>No hay imagen asociada al feed</p>`;
+                }
+                textoDiv.appendChild(feedDiv);
+            });
+        }
+    </script>
+</head>
+<body>
+    <button onclick="obtenerFeeds()">Ejecutar código PHP</button>
+    <div id="texto" style = "border: 2px;"></div>
+</body>
+</html>

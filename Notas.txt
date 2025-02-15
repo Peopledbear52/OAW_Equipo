@@ -34,3 +34,8 @@ INSERT INTO categorias (nombre) VALUES ('Tecnología'), ('Deportes'), ('Cultura'
 INSERT INTO noticias_categorias (noticia_id, categoria_id)
 VALUES (1, 1), (1, 2); -- La noticia con id 1 pertenece a las categorías Tecnología y Deportes
 
+---------------------------------------------------
+Comandos para obtener valores
+
+SELECT * FROM feeds;
+

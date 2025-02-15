@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NewsNest</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="css/encabezado.css">
+        <link rel="stylesheet" href="css/barra-herramientas.css">
+        <link rel="stylesheet" href="css/catalogo.css">
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+                background-color: #f4f4f9;
+            }
+
+            input[type="text"]{
+                padding: 5px 10px;
+                margin: 5px;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+
+            input[type="text"]:hover{
+                background-color: #ccc;
+            }
+
+            input[type="text"]:focus{
+                background-color: #ccc;
+            }
+
+            input[type="button"],button{
+                margin: 5px;
+                border-radius: 4px;
+            }
+
+            input[type="button"],button:hover{
+                background-color: #ccc;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 2;
+            }
+
+            .dropdown-content span {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown-content span:hover {
+                background-color: #f1f1f1
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+        </style>
+    </head>
+    <body>
+        <header id="encabezado">
+            <div class="encabezado-contenedor">
+                <div class="titulo-lectorRSS">
+                    <h4>NewsNest</h4>
+                </div>
+                <div class="agregar-feeds">
+                    <input type="text" name="feeds" id="feeds" placeholder="Escriba feeds aquí...">
+                    <input type="button" name="agregar" id="agregar" value="Agregar">
+                </div>
+            </div>
+
+            <div class="barra-herramientas">
+                <input type="text" name="buscador" id="buscador" placeholder="Buscar">
+                <!--no se si haré boton para el filtrado-->
+                <div class="dropdown">
+                    <button class="dropbtn" name="filtrar" id="filtrar"><img src="imagenes/filtrar.png" alt="" width="20" height="20" align="center"></button>
+                    <div class="dropdown-content">
+                        <span><input type="radio" name="filtrado-selec" value="opcion1">opcion 1</span>
+                        <span><input type="radio" name="filtrado-selec" value="opcion2">opcion 2</span>
+                        <span><input type="radio" name="filtrado-selec" value="opcion3">opcion 3</span>
+                    </div>
+                </div>
+                <button name="actualizar" id="actualizar"><img src="imagenes/girar.png" alt="" width="20" height="20" align="center"></button>
+            </div>
+        </header>
+        <div id="contenidoCatalogo" class="restriccion">
+            <div class="container">
+                <div>
+                    <pre>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+                    </pre>
+                </div>
+                <div class="card">
+                    <div class="card-image">Imagen</div>
+                    <div class="card-content">
+                        <div class="card-title">Título</div>
+                        <div class="card-date">##/##/##</div>
+                        <div class="card-text">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Praesent lorem nibh, elementum ut nunc in, pellentesque fringilla purus.
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="card">
+                    <div class="card-image"><img src="imagenes/imagenPrueba.avif" alt="" width="1000px" height="1000px"></div>
+                    <div class="card-content">
+                        <div class="card-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Praesent lorem nibh, elementum ut nunc in, pellentesque fringilla purus.
+                            Lorem ipsum dolor sit amet,consectetur adipiscing elit.
+                        </div>
+                        <div class="card-date">##/##/##</div>
+                        <div class="card-text">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Praesent lorem nibh, elementum ut nunc in, pellentesque fringilla purus.
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Praesent lorem nibh, elementum ut nunc in, pellentesque fringilla purus.
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Praesent lorem nibh, elementum ut nunc in, pellentesque fringilla purus.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-image"><img src="imagenes/imagenPrueba2.jpeg" alt="" width="3000px" height="4500px"></div>
+                    <div class="card-content">
+                        <div class="card-title">Título</div>
+                        <div class="card-date">##/##/##</div>
+                        <div class="card-text">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Praesent lorem nibh, elementum ut nunc in, pellentesque fringilla purus.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-image"><img src="imagenes/imagenPrueba3.png" alt="" width="400px" height="100px"></div>
+                    <div class="card-content">
+                        <div class="card-title">Título</div>
+                        <div class="card-date">##/##/##</div>
+                        <div class="card-text">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Praesent lorem nibh, elementum ut nunc in, pellentesque fringilla purus.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,25 @@
+.barra-herramientas{
+    padding: 10px 15px;
+    background-color: #f4f4f9;
+    align-items: center;
+    margin:auto;
+    display: flex;
+    align-items: center;
+    border-bottom-style:1px solid #46b1e1;
+}
+
+.barra-herramientas input[type="text"]{
+    width: 20%;
+    height: 30px;
+}
+
+.barra-herramientas button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    width: 30px;
+    height: 30px;
+    border: 0px;
+}
+

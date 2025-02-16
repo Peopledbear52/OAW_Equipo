@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
 
                 if ($descripcion !== strip_tags($descripcion)) {
-                    $descripcion = "";
+                    $descripcion = $titulo;
                 }
     
                 $sql = "INSERT INTO noticias (titulo, descripcion, fecha, url, urlnoticia)
@@ -125,6 +125,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 } else {
     header("Content-Type: application/json");
-    echo json_encode(["error" => "Método no permitido"]);
+    echo json_encode(["mensaje" => "Error: Método no permitido"]);
 }
 ?>

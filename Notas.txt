@@ -42,9 +42,9 @@ Comandos para obtener valores
 
 SELECT * FROM feeds;
 
-
-SELECT n.titulo, n.fecha, n.descripcion, f.titulo AS feed_nombre, c.nombre AS categoria
-FROM noticias n JOIN feeds f ON n.url = f.url LEFT JOIN noticias_categorias nc ON n.id = nc.noticia_id
-LEFT JOIN Categorias c ON nc.categoria_id = c.id
-WHERE n.id = 2;
+SELECT n.titulo, n.fecha, n.descripcion, n.urlnoticia, f.titulo AS feed_nombre, GROUP_CONCAT(c.nombre SEPARATOR '|') AS categorias 
+FROM noticias n JOIN feeds f ON n.url = f.url 
+LEFT JOIN noticias_categorias nc ON n.id = nc.noticia_id 
+LEFT JOIN Categorias c ON nc.categoria_id = c.id 
+GROUP BY n.id, n.titulo, n.fecha, n.descripcion, n.urlnoticia, f.titulo; 
 

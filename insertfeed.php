@@ -34,20 +34,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $sql = "INSERT INTO feeds (titulo, descripcion, url, imageurl, rssurl)
-    VALUES ('$titulo', '$descripcion', '$url', '$imageurl', '$rssurl')
+    VALUES (?, ?, ?, ?, ?)
     ON DUPLICATE KEY UPDATE titulo = VALUES(titulo), descripcion = VALUES(descripcion),
     imageurl = VALUES(imageurl), rssurl = VALUES(rssurl);";
 
-    $resultado = $conn->query($sql);
-
-    if ($resultado === TRUE) {
-        $respuesta = [
-            "mensaje" =>  $resultado //Devuelve true
-        ];
+    $resultado = $conn->prepare($sql);
+    $resultado->bind_param("sssss", $titulo, $descripcion, $url, $imageurl, $rssurl);
+    
+    if (!$resultado->execute()) {
+        $respuesta = ["mensaje" => "Error en la consulta: " . $conn->error];
     } else {
-        $respuesta = [
-            "mensaje" => "No se puedo realizar la consulta"
-        ];
+        $respuesta = ["mensaje" => "Se insertó el feed correctamente"];
     }
 
     $conn->close();
@@ -55,6 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Content-Type: application/json");
     echo json_encode($respuesta);
 } else {
-    echo json_encode(["error" => "Método no permitido"]);
+    echo json_encode(["mensaje" => "Error: Método no permitido"]);
 }
 ?>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP test</title>
+    <script>
+        async function obtenerNoticias() {
+            try {
+                const url = "getnoticias.php";
+
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.mensaje) {
+                    throw new Error(data.mensaje);
+                }
+
+                mostrarElementos(data);
+            } catch (error) {
+                console.error("Error: ", error);
+                document.getElementById("texto").innerHTML = "Hubo un error al obtener las noticias.";
+            }
+        }
+
+        function mostrarElementos(data) {
+            const textoDiv = document.getElementById("texto");
+
+            data.forEach(feed => {
+                const feedDiv = document.createElement("div");
+                const categoria = feed.categorias;
+
+                /* Dentro de este IF se crea un array de categorias cuando se detecta 
+                que hay mas de una, ahora mismo lo comento porque no me sirve, pero si necesitan
+                obtener un array con cada categoria incluida, pueden usarlo.
+                if (categoria.includes("|")) {
+                    const catArray = categoria.split("|");
+                }*/
+
+                feedDiv.innerHTML = `<h2>Titulo: ${feed.titulo}</h2> <p>Feed: ${feed.feed_nombre}</p> <p>Descripcion: ${feed.descripcion}</p> <p>url: ${feed.urlnoticia}</p> <p>Fecha: ${feed.fecha}</p> <p>Categoria: ${categoria}</p>`;
+                textoDiv.appendChild(feedDiv);
+            });
+        }
+    </script>
+</head>
+<body>
+    <button onclick="obtenerNoticias()">Ejecutar código PHP</button>
+    <div id="texto" style = "border: 2px;"></div>
+</body>
+</html>

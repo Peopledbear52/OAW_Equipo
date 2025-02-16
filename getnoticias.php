@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('simplepie-1.5\autoloader.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -16,7 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         echo json_encode("Error de conexión: " . $connError);
     }
 
-    $sql = "SELECT * FROM feeds";
+    $sql = "SELECT n.titulo, n.fecha, n.descripcion, n.urlnoticia, f.titulo AS feed_nombre, GROUP_CONCAT(c.nombre SEPARATOR '|') AS categorias 
+    FROM noticias n JOIN feeds f ON n.url = f.url 
+    LEFT JOIN noticias_categorias nc ON n.id = nc.noticia_id 
+    LEFT JOIN Categorias c ON nc.categoria_id = c.id 
+    GROUP BY n.id, n.titulo, n.fecha, n.descripcion, n.urlnoticia, f.titulo;";
 
     $resultado = $conn->query($sql);
 
@@ -31,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $datos[] = $fila;
         }
     } else {
-        die("Error: No se encontraron registros");
+        $datos = ["mensaje" => "Error: No se encontraron registros"];
     }
 
     $conn->close();

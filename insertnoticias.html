@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP test</title>
+    <script>
+        async function insertarSecuencia() {
+            try {
+                const feeds = await obtenerFeeds();
+                await insertarNoticias(feeds);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        async function obtenerFeeds() {
+            try {
+                const url = "getfeeds.php";
+
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                return data;
+            } catch (error) {
+                console.error("Error: ", error);
+                document.getElementById("texto").innerHTML = "Hubo un error al obtener los feeds.";
+            }
+        }
+               
+        async function insertarNoticias(feeds) {
+            try {
+                const feedsUrl = {};
+
+                feeds.forEach(feed => {
+                    feedsUrl[feed.titulo] = {
+                        url: feed.url,
+                        rssurl: feed.rssurl
+                    }
+                });
+
+                const url = "insertnoticias.php";
+
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(feedsUrl)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                document.getElementById("texto").innerHTML = data.mensaje;
+            } catch (error) {
+                console.error("Error: ", error);
+                document.getElementById("texto").innerHTML = "Hubo un error al insertar las noticias.";
+            }
+        }
+    </script>
+</head>
+<body>
+    <button onclick="insertarSecuencia()">Ejecutar código PHP</button>
+    <div id="texto" style = "border: 2px;"></div>
+</body>
+</html>

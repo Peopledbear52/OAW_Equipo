@@ -17,6 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descripcion = $feed->get_description();
     $url = $feed->get_permalink();
     $imageurl = $feed->get_image_url();
+    $rssurl = $feed->subscribe_url();
 
     $host = "localhost";
     $usuario = "root";
@@ -32,10 +33,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode("Error de conexión: " . $connError);
     }
 
-    $sql = "INSERT INTO feeds (titulo, descripcion, url, imageurl)
-    VALUES ('$titulo', '$descripcion', '$url', '$imageurl')
+    $sql = "INSERT INTO feeds (titulo, descripcion, url, imageurl, rssurl)
+    VALUES ('$titulo', '$descripcion', '$url', '$imageurl', '$rssurl')
     ON DUPLICATE KEY UPDATE titulo = VALUES(titulo), descripcion = VALUES(descripcion),
-    imageurl = VALUES(imageurl);";
+    imageurl = VALUES(imageurl), rssurl = VALUES(rssurl);";
 
     $resultado = $conn->query($sql);
 

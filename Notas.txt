@@ -27,15 +27,24 @@ ON DUPLICATE KEY UPDATE titulo = VALUES(titulo), descripcion = VALUES(descripcio
 imageurl = VALUES(imageurl);
 
 INSERT INTO noticias (titulo, descripcion, fecha, url)
-VALUES ('Titulo de la Noticia', 'Descripción de la noticia...', '2023-10-01', 'http://ejemplo.com/feed');
+VALUES ('Titulo de la Noticia', 'Descripción de la noticia...', '2023-10-01', 'http://ejemplo.com/feed')
+ON DUPLICATE KEY UPDATE titulo = VALUES(titulo), descripcion = VALUES(descripcion),
+fecha = VALUES(fecha);
 
-INSERT INTO categorias (nombre) VALUES ('Tecnología'), ('Deportes'), ('Cultura');
+INSERT INTO categorias (nombre) VALUES ('Tecnología'), ('Deportes'), ('Cultura')
+ON DUPLICATE KEY UPDATE nombre = VALUES(nombre);
 
-INSERT INTO noticias_categorias (noticia_id, categoria_id)
-VALUES (1, 1), (1, 2); -- La noticia con id 1 pertenece a las categorías Tecnología y Deportes
+INSERT INTO noticias_categorias (noticia_id, categoria_id) VALUES (1, 1), (1, 2)
+ON DUPLICATE KEY UPDATE noticia_id = VALUES(noticia_id), categoria_id = VALUES(categoria_id);
 
 ---------------------------------------------------
 Comandos para obtener valores
 
 SELECT * FROM feeds;
+
+
+SELECT n.titulo, n.fecha, n.descripcion, f.titulo AS feed_nombre, c.nombre AS categoria
+FROM noticias n JOIN feeds f ON n.url = f.url LEFT JOIN noticias_categorias nc ON n.id = nc.noticia_id
+LEFT JOIN Categorias c ON nc.categoria_id = c.id
+WHERE n.id = 2;
 

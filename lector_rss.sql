@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-02-2025 a las 10:28:09
+-- Tiempo de generación: 16-02-2025 a las 09:46:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `categorias` (
   `id` bigint(20) NOT NULL,
-  `nombre` varchar(100) DEFAULT NULL
+  `nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -43,15 +43,17 @@ CREATE TABLE `feeds` (
   `titulo` text NOT NULL COMMENT 'titulo del feed',
   `descripcion` text NOT NULL COMMENT 'descripcion del feed',
   `url` varchar(255) NOT NULL COMMENT 'url del feed',
-  `imageurl` varchar(255) NOT NULL COMMENT 'url de una imagen asociada al feed'
+  `imageurl` varchar(255) NOT NULL COMMENT 'url de una imagen asociada al feed',
+  `rssurl` varchar(255) NOT NULL COMMENT 'url del archivo rss que las paginas ofrecen'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `feeds`
 --
 
-INSERT INTO `feeds` (`id`, `titulo`, `descripcion`, `url`, `imageurl`) VALUES
-(1, 'Titulo del feed', 'Descripción del feed', 'http://ejemplo.com/feed', 'url de imagen');
+INSERT INTO `feeds` (`id`, `titulo`, `descripcion`, `url`, `imageurl`, `rssurl`) VALUES
+(6, 'Xataka', 'Publicación de noticias sobre gadgets y tecnología. Últimas tecnologías en electrónica de consumo y novedades tecnológicas en móviles, tablets, informática, etc', 'https://www.xataka.com/', '', 'https://www.xataka.com/feedburner.xml'),
+(7, 'ABC News: International', '', 'http://abcnews.go.com/', 'https://s.abcnews.com/images/site/abcnews_google_rss_logo.png', 'https://abcnews.go.com/abcnews/internationalheadlines');
 
 -- --------------------------------------------------------
 
@@ -62,9 +64,10 @@ INSERT INTO `feeds` (`id`, `titulo`, `descripcion`, `url`, `imageurl`) VALUES
 CREATE TABLE `noticias` (
   `id` bigint(20) NOT NULL,
   `titulo` text NOT NULL,
-  `descripcion` text NOT NULL,
-  `fecha` date DEFAULT NULL,
-  `url` varchar(255) NOT NULL
+  `descripcion` longtext NOT NULL,
+  `fecha` datetime DEFAULT NULL,
+  `url` varchar(255) NOT NULL COMMENT 'enlace que lleva a la página que hostea las noticias o blog, funciona como llave foranea',
+  `urlnoticia` varchar(300) NOT NULL COMMENT 'enlace que lleva a la pagina de la noticia'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -74,6 +77,7 @@ CREATE TABLE `noticias` (
 --
 
 CREATE TABLE `noticias_categorias` (
+  `id` bigint(20) NOT NULL,
   `noticia_id` bigint(20) NOT NULL,
   `categoria_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -86,7 +90,8 @@ CREATE TABLE `noticias_categorias` (
 -- Indices de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `key_nombre` (`nombre`);
 
 --
 -- Indices de la tabla `feeds`
@@ -100,14 +105,16 @@ ALTER TABLE `feeds`
 --
 ALTER TABLE `noticias`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_noticias_feeds` (`url`);
+  ADD UNIQUE KEY `title_key` (`titulo`) USING HASH,
+  ADD KEY `fk_noticias_feeds` (`url`) USING BTREE;
 
 --
 -- Indices de la tabla `noticias_categorias`
 --
 ALTER TABLE `noticias_categorias`
-  ADD PRIMARY KEY (`noticia_id`,`categoria_id`),
-  ADD KEY `categoria_id` (`categoria_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `noticia_id` (`noticia_id`) USING BTREE,
+  ADD KEY `noticias_categorias_ibfk_2` (`categoria_id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -117,19 +124,25 @@ ALTER TABLE `noticias_categorias`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT de la tabla `feeds`
 --
 ALTER TABLE `feeds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id del feed', AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id del feed', AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `noticias`
 --
 ALTER TABLE `noticias`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=519;
+
+--
+-- AUTO_INCREMENT de la tabla `noticias_categorias`
+--
+ALTER TABLE `noticias_categorias`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- Restricciones para tablas volcadas

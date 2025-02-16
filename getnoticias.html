@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHP test</title>
     <script>
+        //Está función obtiene todas las noticias obtenidas en la db
         async function obtenerNoticias() {
             try {
+                //Se conecta al php getnoticias.php
                 const url = "getnoticias.php";
 
                 const response = await fetch(url);
@@ -17,10 +19,12 @@
 
                 const data = await response.json();
 
+                //Si hay algun error, este if lo identificará y lanzará un error
                 if (data.mensaje) {
                     throw new Error(data.mensaje);
                 }
 
+                //Los datos obtenidos serán procesados por la función mostrarElementos
                 mostrarElementos(data);
             } catch (error) {
                 console.error("Error: ", error);
@@ -31,9 +35,13 @@
         function mostrarElementos(data) {
             const textoDiv = document.getElementById("texto");
 
-            data.forEach(feed => {
-                const feedDiv = document.createElement("div");
-                const categoria = feed.categorias;
+            /*Aqui se recorrerá cada elemento del json data, cada elemento es una noticia
+            Su información será asignada a un Div y mostrada por el div "texto"
+            De nuevo, esto es solo para mostrarles como es que uno puede obtener la información de cada noticia
+            Como utilizar esta información será ya su jurisdicción */
+            data.forEach(noticia => {
+                const noticiaDiv = document.createElement("div");
+                const categoria = noticia.categorias;
 
                 /* Dentro de este IF se crea un array de categorias cuando se detecta 
                 que hay mas de una, ahora mismo lo comento porque no me sirve, pero si necesitan
@@ -42,8 +50,8 @@
                     const catArray = categoria.split("|");
                 }*/
 
-                feedDiv.innerHTML = `<h2>Titulo: ${feed.titulo}</h2> <p>Feed: ${feed.feed_nombre}</p> <p>Descripcion: ${feed.descripcion}</p> <p>url: ${feed.urlnoticia}</p> <p>Fecha: ${feed.fecha}</p> <p>Categoria: ${categoria}</p>`;
-                textoDiv.appendChild(feedDiv);
+                noticiaDiv.innerHTML = `<h2>Titulo: ${noticia.titulo}</h2> <p>Feed: ${noticia.feed_nombre}</p> <p>Descripcion: ${noticia.descripcion}</p> <p>url: ${noticia.urlnoticia}</p> <p>Fecha: ${noticia.fecha}</p> <p>Categoria: ${categoria}</p>`;
+                textoDiv.appendChild(noticiaDiv);
             });
         }
     </script>

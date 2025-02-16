@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHP test</title>
     <script>
+        //Esta función ejecuta las otras dos en secuencia
         async function insertarSecuencia() {
             try {
                 const feeds = await obtenerFeeds();
@@ -14,6 +15,8 @@
             }
         }
 
+        //Esta función obtiene los feeds que estan en la db
+        //Esto es necesario ya que luego se insertarán las noticias de los feeds obtenidos aqui
         async function obtenerFeeds() {
             try {
                 const url = "getfeeds.php";
@@ -25,22 +28,25 @@
                 }
 
                 const data = await response.json();
-
+                //Se obtiene un objeto json que contiene la info de todos los feeds
                 return data;
             } catch (error) {
                 console.error("Error: ", error);
                 document.getElementById("texto").innerHTML = "Hubo un error al obtener los feeds.";
             }
         }
-               
+        
+        //Esta función llama al php que insertara las noticias de los feeds obtenidos
         async function insertarNoticias(feeds) {
             try {
                 const feedsUrl = {};
 
+                /* Aqui el JSON feeds sera escaneado y su información será asignada al json feedsUrl
+                La información que se pone en feedsUrl es información que necesitará insertnoticias.php para funcionar*/
                 feeds.forEach(feed => {
                     feedsUrl[feed.titulo] = {
-                        url: feed.url,
-                        rssurl: feed.rssurl
+                        url: feed.url, //El url es necesario ya que funciona como llave foranea para las noticias
+                        rssurl: feed.rssurl //Este url es necesario para que simplepie escanee las noticias del feed
                     }
                 });
 

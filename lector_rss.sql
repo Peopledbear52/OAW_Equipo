@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-02-2025 a las 09:46:08
+-- Tiempo de generación: 16-02-2025 a las 21:31:01
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -53,7 +53,7 @@ CREATE TABLE `feeds` (
 
 INSERT INTO `feeds` (`id`, `titulo`, `descripcion`, `url`, `imageurl`, `rssurl`) VALUES
 (6, 'Xataka', 'Publicación de noticias sobre gadgets y tecnología. Últimas tecnologías en electrónica de consumo y novedades tecnológicas en móviles, tablets, informática, etc', 'https://www.xataka.com/', '', 'https://www.xataka.com/feedburner.xml'),
-(7, 'ABC News: International', '', 'http://abcnews.go.com/', 'https://s.abcnews.com/images/site/abcnews_google_rss_logo.png', 'https://abcnews.go.com/abcnews/internationalheadlines');
+(18, 'ABC News: International', '', 'http://abcnews.go.com/', 'https://s.abcnews.com/images/site/abcnews_google_rss_logo.png', 'https://abcnews.go.com/abcnews/internationalheadlines');
 
 -- --------------------------------------------------------
 
@@ -124,25 +124,25 @@ ALTER TABLE `noticias_categorias`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=304;
 
 --
 -- AUTO_INCREMENT de la tabla `feeds`
 --
 ALTER TABLE `feeds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id del feed', AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id del feed', AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `noticias`
 --
 ALTER TABLE `noticias`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=519;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=358;
 
 --
 -- AUTO_INCREMENT de la tabla `noticias_categorias`
 --
 ALTER TABLE `noticias_categorias`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
 
 --
 -- Restricciones para tablas volcadas

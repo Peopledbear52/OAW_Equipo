@@ -1,6 +1,8 @@
 <?php 
 require_once('simplepie-1.5\autoloader.php');
 
+//Este php simplemente se conecta a la db, y obtiene los feeds almacenados ahi
+
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $host = "localhost";
     $usuario = "root";
@@ -26,12 +28,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     $datos = [];
 
+    //Este IF verifica que la db nos haya devuelto los feeds,
+    //en caso de que no haya devuelto nada (Probablemente porque no hay ningun feed en la db)
+    //Se mandará un mensaje de error
     if ($resultado->num_rows > 0) {
         while ($fila = $resultado->fetch_assoc()) {
             $datos[] = $fila;
         }
     } else {
-        die("Error: No se encontraron registros");
+        $datos = ["mensaje" => "Error: No se encontraron registros"];
     }
 
     $conn->close();

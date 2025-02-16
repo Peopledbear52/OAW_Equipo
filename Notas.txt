@@ -1,47 +1,31 @@
-Código para obtener toda la información de una noticia teniendo la url de su feed
-
-SELECT 
-    n.titulo, 
-    n.fecha, 
-    n.descripcion, 
-    f.titulo AS feed_nombre, 
-    c.nombre AS categoria
-FROM 
-    noticias n
-JOIN 
-    feeds f ON n.url = f.url
-LEFT JOIN 
-    noticias_categorias nc ON n.id = nc.noticia_id
-LEFT JOIN 
-    categorias c ON nc.categoria_id = c.id
-WHERE 
-    n.url = 'http://ejemplo.com/feed';
-
-
 -----------------------------------------------
-Comandos para insertar valores
-
-INSERT INTO feeds (titulo, descripcion, url, imageurl)
-VALUES ('Feed de Ejemplo', 'Este es un feed de ejemplo', 'http://ejemplo.com/feed', 'url de la imagen')
+Comandos para insertar valores:
+INSERT INTO feeds (titulo, descripcion, url, imageurl, rssurl)
+VALUES ('Feed de Ejemplo', 'Este es un feed de ejemplo', 'http://ejemplo.com/feed', 'url de la imagen', 'http://ejemplo.com/feed')
 ON DUPLICATE KEY UPDATE titulo = VALUES(titulo), descripcion = VALUES(descripcion),
-imageurl = VALUES(imageurl);
+imageurl = VALUES(imageurl), rssurl = VALUES(rssurl);
 
-INSERT INTO noticias (titulo, descripcion, fecha, url)
-VALUES ('Titulo de la Noticia', 'Descripción de la noticia...', '2023-10-01', 'http://ejemplo.com/feed')
+Insertar una nueva noticia a la tabla noticias:
+INSERT INTO noticias (titulo, descripcion, fecha, url, urlnoticia)
+VALUES ('Titulo de la Noticia', 'Descripción de la noticia...', '2023-10-01', 'http://ejemplo.com/feed', 'http://ejemplo.com/feed/noticia')
 ON DUPLICATE KEY UPDATE titulo = VALUES(titulo), descripcion = VALUES(descripcion),
-fecha = VALUES(fecha);
+fecha = VALUES(fecha), url = VALUES(url);
 
-INSERT INTO categorias (nombre) VALUES ('Tecnología'), ('Deportes'), ('Cultura')
+Insertar una nueva categoria a la tabla categorias:
+INSERT INTO categorias (nombre) VALUES ('Tecnología')
 ON DUPLICATE KEY UPDATE nombre = VALUES(nombre);
 
+Insertar nueva asociación entre noticia y categoria a la tabla noticias_categorias:
 INSERT INTO noticias_categorias (noticia_id, categoria_id) VALUES (1, 1), (1, 2)
 ON DUPLICATE KEY UPDATE noticia_id = VALUES(noticia_id), categoria_id = VALUES(categoria_id);
 
 ---------------------------------------------------
 Comandos para obtener valores
 
+Obtener todos los feeds:
 SELECT * FROM feeds;
 
+Obtener todas las noticias, incluyendo el url del feed al que pertenecen y las categorias que le pertenecen:
 SELECT n.titulo, n.fecha, n.descripcion, n.urlnoticia, f.titulo AS feed_nombre, GROUP_CONCAT(c.nombre SEPARATOR '|') AS categorias 
 FROM noticias n JOIN feeds f ON n.url = f.url 
 LEFT JOIN noticias_categorias nc ON n.id = nc.noticia_id 

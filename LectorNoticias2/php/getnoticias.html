@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP test</title>
+    <script>
+        //Está función obtiene todas las noticias obtenidas en la db
+        async function obtenerNoticias() {
+            try {
+                //Se conecta al php getnoticias.php
+                const url = "getnoticias.php";
+
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                //Si hay algun error, este if lo identificará y lanzará un error
+                if (data.mensaje) {
+                    throw new Error(data.mensaje);
+                }
+
+                //Los datos obtenidos serán procesados por la función mostrarElementos
+                mostrarElementos(data);
+            } catch (error) {
+                console.error("Error: ", error);
+                document.getElementById("texto").innerHTML = "Hubo un error al obtener las noticias.";
+            }
+        }
+
+        function mostrarElementos(data) {
+            const textoDiv = document.getElementById("texto");
+
+            /*Aqui se recorrerá cada elemento del json data, cada elemento es una noticia
+            Su información será asignada a un Div y mostrada por el div "texto"
+            De nuevo, esto es solo para mostrarles como es que uno puede obtener la información de cada noticia
+            Como utilizar esta información será ya su jurisdicción */
+            data.forEach(noticia => {
+                const noticiaDiv = document.createElement("div");
+                const categoria = noticia.categorias;
+
+                /* Dentro de este IF se crea un array de categorias cuando se detecta 
+                que hay mas de una, ahora mismo lo comento porque no me sirve, pero si necesitan
+                obtener un array con cada categoria incluida, pueden usarlo.
+                if (categoria.includes("|")) {
+                    const catArray = categoria.split("|");
+                }*/
+
+                noticiaDiv.innerHTML = `<h2>Titulo: ${noticia.titulo}</h2> <p>Feed: ${noticia.feed_nombre}</p> <p>Descripcion: ${noticia.descripcion}</p> <p>url: ${noticia.urlnoticia}</p> <p>Fecha: ${noticia.fecha}</p> <p>Categoria: ${categoria}</p>`;
+                textoDiv.appendChild(noticiaDiv);
+            });
+        }
+    </script>
+</head>
+<body>
+    <button onclick="obtenerNoticias()">Ejecutar código PHP</button>
+    <div id="texto" style = "border: 2px;"></div>
+</body>
+</html>

@@ -5,7 +5,7 @@ require_once('simplepie-1.5/autoloader.php');
 
 $feed = new SimplePie();
 
-$feed->set_feed_url('https://abcnews.go.com/abcnews/internationalheadlines'); //Se le dan los links de los feeds a simplepie
+$feed->set_feed_url('https://www.cnbc.com/id/100727362/device/rss/rss.html'); //Se le dan los links de los feeds a simplepie
 $feed->enable_cache(false); //Desactivarlo para evitar una advertencia tonta
 $feed->init(); //Con este comando comienza el proceso de obtener y parsear los feeds
 $feed->handle_content_type(); //Para que el contenido mostrado se muestre bien en html

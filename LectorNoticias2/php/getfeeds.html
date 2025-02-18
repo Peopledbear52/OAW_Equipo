@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP test</title>
+    <script>
+        //Función que llama a getfeeds.php para obtener los feeds
+        async function obtenerFeeds() {
+            try {
+                const url = "getfeeds.php";
+
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
+                //Se obtiene un objeto JSON con todos los feeds obtenidos
+                const data = await response.json();
+
+                if (data.mensaje) {
+                    throw new Error(data.mensaje);
+                }
+
+                mostrarElementos(data);
+            } catch (error) {
+                console.error("Error: ", error);
+                document.getElementById("texto").innerHTML = "Hubo un error al obtener los feeds.";
+            }
+        }
+
+        //En esta función se recorrera cada elemento del json data, el cual contiene todos los feeds
+        //Y se mostrará la información de cada feed en un div dentro del div "texto"
+        function mostrarElementos(data) {
+            const textoDiv = document.getElementById("texto");
+
+            data.forEach(feed => {
+                //Todo esto es pura estética, el punto de todo este código es mostrarles
+                //Como es que pueden sacar la información de cada uno de los feeds con javascript
+                //como usen esta información es ya su jurisdicción
+                const feedDiv = document.createElement("div");
+                if (feed.imageurl) {
+                    feedDiv.innerHTML = `<h2>Titulo: ${feed.titulo}</h2> <p>Descripcion: ${feed.descripcion}</p> <p>Enlace: ${feed.url}</p> <img src= ${feed.imageurl}>`;
+                } else{
+                    feedDiv.innerHTML = `<h2>Titulo: ${feed.titulo}</h2> <p>Descripcion: ${feed.descripcion}</p> <p>Enlace: ${feed.url}</p> <p>No hay imagen asociada al feed</p>`;
+                }
+                textoDiv.appendChild(feedDiv);
+            });
+        }
+    </script>
+</head>
+<body>
+    <button onclick="obtenerFeeds()">Ejecutar código PHP</button>
+    <div id="texto" style = "border: 2px;"></div>
+</body>
+</html>

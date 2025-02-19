@@ -236,7 +236,7 @@
                     await insertarFeed();
                     await insertarSecuencia();
                     const filtro = document.querySelector('input[name="filtro"]:checked').value;
-                    alert(filtro);
+                    //alert(filtro);
                     await cargarNoticias(filtro);
                     //await obtenerNoticias();
 
@@ -251,7 +251,7 @@
                 try {
                     await insertarSecuencia();
                     const filtro = document.querySelector('input[name="filtro"]:checked').value;
-                    alert(filtro);
+                    //alert(filtro);
                     await cargarNoticias(filtro);
                     //await obtenerNoticias();
 
@@ -275,7 +275,7 @@
                 //Se conecta al php buscar.php
                 const info= document.getElementById("buscador").value.toString();
                 const filtro = document.querySelector('input[name="filtro"]:checked').value;
-                alert(filtro);
+                //alert(filtro);
 
                 const url = "php/buscar_ordenado.php?q=" + info + "&order=" + filtro;
                 //const url = "php/buscar.php?q=" + info;//quitare esto despues

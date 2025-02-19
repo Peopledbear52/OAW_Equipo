@@ -236,7 +236,7 @@
                     await insertarFeed();
                     await insertarSecuencia();
                     const filtro = document.querySelector('input[name="filtro"]:checked').value;
-                    alert(filtro);
+                    //alert(filtro);
                     await cargarNoticias(filtro);
                     //await obtenerNoticias();
 
@@ -251,7 +251,7 @@
                 try {
                     await insertarSecuencia();
                     const filtro = document.querySelector('input[name="filtro"]:checked').value;
-                    alert(filtro);
+                    //alert(filtro);
                     await cargarNoticias(filtro);
                     //await obtenerNoticias();
 
@@ -275,7 +275,7 @@
                 //Se conecta al php buscar.php
                 const info= document.getElementById("buscador").value.toString();
                 const filtro = document.querySelector('input[name="filtro"]:checked').value;
-                alert(filtro);
+                //alert(filtro);
 
                 const url = "php/buscar_ordenado.php?q=" + info + "&order=" + filtro;
                 //const url = "php/buscar.php?q=" + info;//quitare esto despues
@@ -332,7 +332,7 @@
                     const data = await response.json();//Se espera una respuesta del php, y se convierte en un json
 
                     //El php mandará un json con la llave mensaje
-                    alert(data.mensaje); 
+                    //alert(data.mensaje); 
                     
                 } catch (error) {
                     console.error("Error: ", error);
@@ -402,7 +402,7 @@
 
                     const data = await response.json();
 
-                    alert(data.mensaje);
+                    //alert(data.mensaje);
                 } catch (error) {
                     console.error("Error: ", error);
                     alert("Hubo un error al insertar las noticias.");

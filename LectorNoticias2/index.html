@@ -98,9 +98,10 @@
                 <div class="dropdown">
                     <button class="dropbtn" name="filtrar" id="filtrar"><img src="imagenes/filtrar.png" alt="" width="20" height="20" align="center"></button>
                     <div class="dropdown-content">
-                        <span><input type="radio" name="filtrado-selec" value="opcion1">opcion 1</span>
-                        <span><input type="radio" name="filtrado-selec" value="opcion2">opcion 2</span>
-                        <span><input type="radio" name="filtrado-selec" value="opcion3">opcion 3</span>
+                        <span><input type="radio" name="filtro" value="fecha" checked> Filtrar por fecha</span>
+                        <span><input type="radio" name="filtro" value="titulo"> Filtrar por título</span>
+                        <span><input type="radio" name="filtro" value="categorias"> Filtrar por categoría</span>
+                        <span><input type="radio" name="filtro" value="descripcion"> Filtrar por descripción</span>
                     </div>
                 </div>
                 <button name="actualizar" id="actualizar" onclick="actualizarNoticias()"><img src="imagenes/girar.png" alt="" width="20" height="20" align="center"></button>
@@ -183,7 +184,47 @@
 
         
         <script>
-            obtenerNoticias();
+            cargarNoticias('fecha');
+
+            // Añadir evento para el cambio de filtro
+            const radios = document.querySelectorAll('input[name="filtro"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Obtener el valor del filtro seleccionado
+                    const filtro = document.querySelector('input[name="filtro"]:checked').value;
+                    // Llamar a la función que recargará las noticias con el filtro seleccionado
+                    cargarNoticias(filtro);
+                });
+            });
+
+
+            async function cargarNoticias(filtro){
+                try {
+                    //Se conecta al php getnoticias_ordenado.php
+                    const url = `php/getnoticias_ordenado.php?order=${filtro}`;
+
+                    const response = await fetch(url);
+
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+
+                    //Si hay algun error, este if lo identificará y lanzará un error
+                    if (data.mensaje) {
+                        throw new Error(data.mensaje);
+                    }
+
+                    //Los datos obtenidos serán procesados por la función mostrarElementos
+                    mostrarElementos(data);
+                } catch (error) {
+                    console.error("Error: ", error);
+                    alert("Hubo un error al obtener las noticias.");
+                }
+            }
+
+            //obtenerNoticias();
 
             //Esta función permite leer las feeds para ingresar las noticias en el lector
             async function leerNoticiasRSS(){
@@ -194,7 +235,10 @@
                     }
                     await insertarFeed();
                     await insertarSecuencia();
-                    await obtenerNoticias();
+                    const filtro = document.querySelector('input[name="filtro"]:checked').value;
+                    alert(filtro);
+                    await cargarNoticias(filtro);
+                    //await obtenerNoticias();
 
                 } catch (error) {
                     console.error("Error:", error);
@@ -206,7 +250,10 @@
             async function actualizarNoticias(){
                 try {
                     await insertarSecuencia();
-                    await obtenerNoticias();
+                    const filtro = document.querySelector('input[name="filtro"]:checked').value;
+                    alert(filtro);
+                    await cargarNoticias(filtro);
+                    //await obtenerNoticias();
 
                 } catch (error) {
                     console.error("Error:", error);
@@ -223,11 +270,15 @@
             });
 
             //Esta función permite encontrar noticias de algo en particular
-            async function buscarNoticias() {
+            async function buscarNoticias() {//modificar esto
             try {
                 //Se conecta al php buscar.php
                 const info= document.getElementById("buscador").value.toString();
-                const url = "php/buscar.php?q=" + info;
+                const filtro = document.querySelector('input[name="filtro"]:checked').value;
+                alert(filtro);
+
+                const url = "php/buscar_ordenado.php?q=" + info + "&order=" + filtro;
+                //const url = "php/buscar.php?q=" + info;//quitare esto despues
 
                 const response = await fetch(url);
 

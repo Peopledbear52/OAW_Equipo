@@ -67,7 +67,8 @@ CREATE TABLE `noticias` (
   `descripcion` longtext NOT NULL,
   `fecha` datetime DEFAULT NULL,
   `url` varchar(255) NOT NULL COMMENT 'enlace que lleva a la página que hostea las noticias o blog, funciona como llave foranea',
-  `urlnoticia` varchar(300) NOT NULL COMMENT 'enlace que lleva a la pagina de la noticia'
+  `urlnoticia` varchar(300) NOT NULL COMMENT 'enlace que lleva a la pagina de la noticia',
+  `urlimagen` varchar(300) NOT NULL COMMENT 'enlace a la imagen de la noticia'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

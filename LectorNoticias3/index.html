@@ -121,6 +121,7 @@
                 </pre>
             </div>
             <div class="container" id="noticias-container">
+                <!--
                 <a class="link-noticia" href="https://uady.mx/">
                 <div class="card">
                     <div class="card-image">Imagen</div>
@@ -179,12 +180,14 @@
                         </div>
                     </div>
                 </div>
+                -->
             </div>
         </div>
 
         
         <script>
-            cargarNoticias('fecha');
+            actualizarNoticias();
+            //cargarNoticias('fecha');
 
             // Añadir evento para el cambio de filtro
             const radios = document.querySelectorAll('input[name="filtro"]');
@@ -484,7 +487,8 @@
                     
                     const imagenDiv = document.createElement("div");//esta no tendra imagen en esta entrega pero este div al final debería tener una etiqueta de <img>
                     imagenDiv.className = "card-image";
-                    imagenDiv.innerText = "Imagen";
+                    imagenDiv.innerHTML = `<img src="${noticia.urlimagen}" alt="Imagen" width="400px" height="100px">`;
+                    //imagenDiv.innerText = "Imagen";
 
                     const contenidoDiv = document.createElement("div");
                     contenidoDiv.className = "card-content";

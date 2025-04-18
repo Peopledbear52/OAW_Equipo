@@ -28,14 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $order = 'fecha';
     }
 
-    $sql = "SELECT n.titulo, n.fecha, n.descripcion, n.urlnoticia, 
+    $sql = "SELECT n.titulo, n.fecha, n.descripcion, n.urlnoticia, n.urlimagen, 
                f.titulo AS feed_nombre, 
                GROUP_CONCAT(c.nombre SEPARATOR '|') AS categorias 
         FROM noticias n 
         JOIN feeds f ON n.url = f.url 
         LEFT JOIN noticias_categorias nc ON n.id = nc.noticia_id 
         LEFT JOIN Categorias c ON nc.categoria_id = c.id
-        GROUP BY n.id, n.titulo, n.fecha, n.descripcion, n.urlnoticia, f.titulo
+        GROUP BY n.id, n.titulo, n.fecha, n.descripcion, n.urlnoticia, n.urlimagen, f.titulo
         ORDER BY $order ASC"; // Orden dinámico
 
     $resultado = $conn->query($sql);

@@ -20,11 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     y las categorias a las que estan asociadas, si no hay categorias, seran mostradas como null
     si hay más de una categorias, estás estaran separada por el separador '|', por lo que si quieren obtener las categorias
     de una determinada noticia por separado, tendran que crear un array separando el string por el separador '|' */
-    $sql = "SELECT n.titulo, n.fecha, n.descripcion, n.urlnoticia, f.titulo AS feed_nombre, GROUP_CONCAT(c.nombre SEPARATOR '|') AS categorias 
+    $sql = "SELECT n.titulo, n.fecha, n.descripcion, n.urlnoticia, n.urlimagen, f.titulo AS feed_nombre, GROUP_CONCAT(c.nombre SEPARATOR '|') AS categorias 
     FROM noticias n JOIN feeds f ON n.url = f.url 
     LEFT JOIN noticias_categorias nc ON n.id = nc.noticia_id 
     LEFT JOIN Categorias c ON nc.categoria_id = c.id 
-    GROUP BY n.id, n.titulo, n.fecha, n.descripcion, n.urlnoticia, f.titulo;";
+    GROUP BY n.id, n.titulo, n.fecha, n.descripcion, n.urlnoticia, n.urlimagen, f.titulo;";
 
     $resultado = $conn->query($sql);
 

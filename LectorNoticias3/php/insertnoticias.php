@@ -54,6 +54,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $fecha = $item->get_date('Y-m-d H:i:s');
                 $noticiaUrl = $item->get_permalink();
 
+                //Intenta obtener imagen desde <enclosure>
+                $enclosure= $item->get_enclosure();
+                if($enclosure && strpos($enclosure->get_type(),'image/') === 0){
+                    $imagenUrl= $enclosure->get_link();
+                }
+                //si no hay imagen en el enclosure, intenta buscarlo en el contenido html
+                else{
+                    $content= $item->get_content();
+                    if(preg_match('/<img.*?src=["\'](.*?)["\']/i',$content,$matches)){
+                        $imagenUrl= $matches[1];
+                    }
+                    else{
+                        //si no hay imagen en el contenido, se muestra una predeterminada
+                        $imagenUrl= "imagenes/imagenPrueba.avif";
+                    }
+                }
+
                 //Aqui se hacen validaciones para verificar que la descripcion de la noticia
                 //No se pase de 300 carácteres, si lo hace, se corta y se añade ... al final
                 if (strlen($item->get_description()) > 300) {
@@ -73,13 +90,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 //Aqui se prepara la consulta sql y se ejecuta, insertando las noticias
                 //Para mas información sobre como funciona el prepare y el bind_param,
                 //Leer los comentarios en insertfeed.php
-                $sql = "INSERT INTO noticias (titulo, descripcion, fecha, url, urlnoticia)
-                VALUES (?, ?, ?, ?, ?)
+                $sql = "INSERT INTO noticias (titulo, descripcion, fecha, url, urlnoticia, urlimagen)
+                VALUES (?, ?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE titulo = VALUES(titulo), descripcion = VALUES(descripcion),
                 fecha = VALUES(fecha), url = VALUES(url);";
     
                 $resultado = $conn->prepare($sql);
-                $resultado->bind_param("sssss", $titulo, $descripcion, $fecha, $urlFeed, $noticiaUrl);
+                $resultado->bind_param("ssssss", $titulo, $descripcion, $fecha, $urlFeed, $noticiaUrl, $imagenUrl);
     
                 if (!$resultado->execute()) {
                     throw new Exception("Error en la consulta: " . $conn->error);

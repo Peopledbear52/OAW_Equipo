@@ -1,0 +1,24 @@
+.barra-herramientas{
+    padding: 10px 15px;
+    background-color: #f4f4f9;
+    align-items: center;
+    margin:auto;
+    display: flex;
+    border-bottom-style:1px solid #46b1e1;
+}
+
+#buscador{
+    width: 20%;
+    height: 30px;
+}
+
+#filtrar,#actualizar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    width: 30px;
+    height: 30px;
+    border: 0px;
+}
+

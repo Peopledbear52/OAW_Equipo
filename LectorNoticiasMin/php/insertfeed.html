@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP test</title>
+    <script>
+        //Esta función se conecta al php insertfeed.php
+        //Recibe un JSON del php y lo procesa
+        async function insertarFeed() {
+            try {
+                /*Url del feed por añadir, SOLO acepta UN url por llamada
+                Podria modificarse el php para que acepte un array de urls
+                y añadir todos los feeds, chance luego lo hago*/
+                const feedUrl = {
+                    url: "http://rss.cnn.com/rss/edition_world.rss"
+                };
+
+                const url = "insertfeed.php"; //Url del php al que se llamara
+
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(feedUrl) //Aqui se manda el JSON que queremos que reciba el php
+                });
+
+                if (!response.ok) {
+                    //Si no se puede establecer conexión con el php, se mandara un error
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();//Se espera una respuesta del php, y se convierte en un json
+
+                //El php mandará un json con la llave mensaje
+                //Se pone el contenido de este mensaje dentro del elemento "texto"
+                document.getElementById("texto").innerHTML = data.mensaje; 
+            } catch (error) {
+                console.error("Error: ", error);
+                document.getElementById("texto").innerHTML = "Hubo un error al insertar el feed.";
+            }
+        }
+    </script>
+</head>
+<body>
+    <button onclick="insertarFeed()">Ejecutar código PHP</button>
+    <div id="texto" style = "border: 2px;"></div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NewsNest</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="css/encabezado.css">
+        <link rel="stylesheet" href="css/barra-herramientas.css">
+        <link rel="stylesheet" href="css/catalogo.css">
+        <link rel="stylesheet" href="css/pagina-principal.css">
+    </head>
+    <body>
+        <header id="encabezado">
+            <div class="encabezado-contenedor">
+                <div class="titulo-lectorRSS">
+                    <h4>NewsNest</h4>
+                </div>
+                <div class="agregar-feeds">
+                    <input type="text" name="feeds" id="feeds" placeholder="Escriba feeds aquí...">
+                    <button name="agregar" id="agregar" onclick="leerNoticiasRSS()">Agregar</button><!--probar esto cuando regrese a casa-->
+                </div>
+            </div>
+
+            <div class="barra-herramientas">
+                <input type="text" name="buscador" id="buscador" placeholder="Escribir aquí para buscar">
+                <div class="dropdown">
+                    <button class="dropbtn" name="filtrar" id="filtrar"><img src="imagenes/filtrar.png" alt="" width="20" height="20" align="center"></button>
+                    <div class="dropdown-content">
+                        <span><input type="radio" name="filtro" value="fecha" checked> Filtrar por fecha</span>
+                        <span><input type="radio" name="filtro" value="titulo"> Filtrar por título</span>
+                        <span><input type="radio" name="filtro" value="categorias"> Filtrar por categoría</span>
+                        <span><input type="radio" name="filtro" value="descripcion"> Filtrar por descripción</span>
+                    </div>
+                </div>
+                <button name="actualizar" id="actualizar" onclick="actualizarNoticias()"><img src="imagenes/girar.png" alt="" width="20" height="20" align="center"></button>
+            </div>
+        </header>
+        <div id="contenidoCatalogo" class="restriccion">
+            <div>
+                <pre>
+
+
+
+
+
+
+
+
+                </pre>
+            </div>
+            <div class="container" id="noticias-container">
+                
+            </div>
+        </div>
+        
+        <script src="js/funcionesNoticias.js" type="text/javascript"></script>
+    </body>
+</html>

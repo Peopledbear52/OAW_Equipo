@@ -186,7 +186,30 @@
 
         
         <script>
-            actualizarNoticias();
+            // Al cargar la página, revisar si hay parámetros en la URL
+            if (window.location.search===""){
+                actualizarNoticias();
+            }
+            else{
+                const query = obtenerParametro("q");
+                const order = obtenerParametro("order");
+
+                if (query) {
+                // Rellenar input de búsqueda
+                document.getElementById("buscador").value=query;
+                document.querySelector('input[name="filtro"]:checked').value=order;
+
+                // Llama al PHP con los parámetros
+                buscarNoticias();
+                }
+            }
+
+            // Función para obtener parámetros de la URL
+            function obtenerParametro(nombre) {
+                const params = new URLSearchParams(window.location.search);
+                return params.get(nombre);
+            }
+            
             //cargarNoticias('fecha');
 
             // Añadir evento para el cambio de filtro
